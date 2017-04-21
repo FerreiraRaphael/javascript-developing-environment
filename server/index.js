@@ -4,13 +4,13 @@ import open from 'open'
 import chalk from 'chalk'
 import webpack from 'webpack'
 import config from '../webpack.config.dev'
+const debug = require('debug')('app:server:dev')
 
 let port = 3000
 const app = express()
 const compiler = webpack(config)
 
-console.log(chalk.green('dev server initializing'))
-console.log(chalk.green('PORT: '+ port))
+debug(`Staring web server at PORT: ${port}`)
 
 app.use(require('webpack-dev-middleware')(compiler, {
   noInfo: true,
@@ -23,11 +23,10 @@ app.get('/', (req, res) => {
 
 app.listen(port, function(err){
   if (err) {
-    console.log(chalk.red(err))
+    debug(chalk.red(err))
   } else {
     let url = `http://localhost:${port}`
-    console.log(chalk.blue('Server Ready'))
-    console.log(chalk.blue('Opening at ' + url))
+    debug(`Server listening at ${url}`)
     open(url)
   }
 })
