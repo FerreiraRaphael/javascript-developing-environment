@@ -71,8 +71,7 @@
     "security-check": "nsp check",
     "share": "npm run security-check && lt --port 3000",
     "lint": "esw webpack.config.* src server",
-    "lint:watch": "npm run lint -- --watch"
+    "lint:watch": "npm run lint -- --watch",
+    "test": "mocha --reporter progress server \"src/**/*.spec.js\""
   }
 }
-
-//TODO Add env var DEBUG to npm scripts
