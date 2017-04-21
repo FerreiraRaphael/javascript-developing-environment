@@ -30,3 +30,5 @@ app.listen(port, function(err){
     open(url)
   }
 })
+
+//TODO Add env var DEBUG to npm scripts
