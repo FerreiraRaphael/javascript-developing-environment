@@ -67,11 +67,13 @@
     "rules": {}
   },
   "scripts": {
-    "start": "npm run security-check && babel-node server",
+    "start": "npm-run-all --parallel security-check open:src lint:watch test:watch",
+    "open:src": "babel-node server",
     "security-check": "nsp check",
-    "share": "npm run security-check && lt --port 3000",
+    "share": "yarn run security-check && lt --port 3000",
     "lint": "esw webpack.config.* src server",
-    "lint:watch": "npm run lint -- --watch",
-    "test": "mocha --reporter progress server \"src/**/*.spec.js\""
+    "lint:watch": "yarn run lint -- --watch",
+    "test": "mocha --reporter progress config/testSetup.js \"src/**/*.spec.js\"",
+    "test:watch": "yarn run test -- --watch"
   }
 }
