@@ -3,7 +3,7 @@ import path from 'path'
 import open from 'open'
 import chalk from 'chalk'
 import webpack from 'webpack'
-import config from '../webpack.config.dev'
+import config from '../config/webpack.config.dev'
 const debug = require('debug')('app:server:dev')
 
 let port = 3000
