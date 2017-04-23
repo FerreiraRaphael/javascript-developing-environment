@@ -67,13 +67,16 @@
     "rules": {}
   },
   "scripts": {
-    "start": "npm-run-all --parallel security-check open:src lint:watch test:watch",
+    "start": "npm-run-all --parallel security-check open:src lint:watch test:watch start-mockapi",
     "open:src": "babel-node server",
     "security-check": "nsp check",
     "share": "yarn run security-check && lt --port 3000",
     "lint": "esw webpack.config.* src server",
     "lint:watch": "yarn run lint -- --watch",
-    "test": "mocha --reporter progress config/testSetup.js \"src/**/*.spec.js\"",
-    "test:watch": "yarn run test -- --watch"
+    "test": "mocha --reporter progress spec/testSetup.js \"src/**/*.spec.js\"",
+    "test:watch": "yarn run test -- --watch",
+    "generate-mock-data": "babel-node spec/generateMockData",
+    "prestart-mockapi": "yarn run generate-mock-data",
+    "start-mockapi": "json-server --watch src/api/db.json --port 3001"
   }
 }
