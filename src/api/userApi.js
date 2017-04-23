@@ -1,8 +1,23 @@
 import 'whatwg-fetch'
+import getBaseUrl from './baseUrl'
+
+const baseUrl = getBaseUrl()
 
 export const getUsers = () => get('users')
 
-const get = url => fetch(url).then(onSucess, onError)
+export const deleteUser =  id => del(`users/${id}`)
+
+const get = url => fetch(handleUrl(url)).then(onSucess, onError)
+
+const del = url => {
+  const request = new Request(handleUrl(url), {
+    method: 'DELETE'
+  })
+
+  return fetch(request).then(onSucess, onError)
+}
+
+const handleUrl = url => `${baseUrl}/${url}`
 
 const onSucess = response => response.json()
 
