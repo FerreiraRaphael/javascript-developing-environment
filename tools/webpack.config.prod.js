@@ -4,6 +4,7 @@
 
 import path from 'path';
 import webpack from 'webpack';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 export default {
   debug: true,
@@ -14,15 +15,32 @@ export default {
   ],
   target: "web",
   output: {
-    path: path.resolve(__dirname, 'src'),
+    path: path.resolve(__dirname, '../dist'),
     publicPath: '/',
     filename: 'bundle.js'
   },
   plugins: [
-    // Minify JS
-    new webpack.otimize.UglifyJsPlugin(),
-    // Eliminate duplicate packages when generating bundle
-    new webpack.otimize.DedupePlugin()
+    // Create HTML file that includes reference to bundled JS.
+    new HtmlWebpackPlugin({
+      template: 'src/index.html',
+      inject: true,
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDocType: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true
+      }
+    }),
+    // Eliminate duplicate packages when generating bundle.
+    new webpack.optimize.DedupePlugin(),
+    // Minify JS.
+    new webpack.optimize.UglifyJsPlugin()
   ],
   module: {
     loaders: [
