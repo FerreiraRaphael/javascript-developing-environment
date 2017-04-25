@@ -1,3 +1,5 @@
+/src/api/db.json
 /node_modules/
 /.idea/
-/src/api/db.json
+/dist/
+npm-debug.log

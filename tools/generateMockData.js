@@ -1,10 +1,8 @@
 /**
  * Created by raphael on 23/04/17.
  */
-/* eslint-disable no-console */
-
 import jsf from 'json-schema-faker'
-import {schema} from './mockDataSchema'
+import {schema} from '../spec/mockDataSchema'
 import fs from 'fs'
 import chalk from 'chalk'
 
