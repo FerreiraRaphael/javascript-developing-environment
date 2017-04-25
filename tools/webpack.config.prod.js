@@ -10,9 +10,10 @@ export default {
   debug: true,
   devtool: 'source-map',
   noInfo: false,
-  entry: [
-    path.resolve(__dirname, '../src/index')
-  ],
+  entry: {
+    main: path.resolve(__dirname, '../src/index'),
+    vendor: ['whatwg-fetch']
+  },
   target: "web",
   output: {
     path: path.resolve(__dirname, '../dist'),
@@ -20,6 +21,10 @@ export default {
     filename: 'bundle.js'
   },
   plugins: [
+    //bundles vendors, at entry vendor
+    new webpack.optimize.CommonsChunkPlugin(
+      /* chunkName= */"vendor", /* filename= */"vendor.bundle.js"
+    ),
     // Create HTML file that includes reference to bundled JS.
     new HtmlWebpackPlugin({
       template: 'src/index.html',
@@ -44,8 +49,8 @@ export default {
   ],
   module: {
     loaders: [
-      {test: /\.js$/, exclude: /node_modules/, loaders: ['babel']},
-      {test: /\.css$/, loaders: ['style', 'css']}
+      { test: /\.js$/, exclude: /node_modules/, loaders: ['babel'] },
+      { test: /\.css$/, loaders: ['style', 'css'] }
     ]
   }
 }
