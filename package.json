@@ -68,7 +68,7 @@
   },
   "scripts": {
     "start": "npm-run-all --parallel security-check open:src lint:watch test:watch start-mockapi",
-    "open:src": "babel-node tools/server",
+    "open:src": "babel-node tools/server.src",
     "security-check": "nsp check",
     "share": "yarn run security-check && lt --port 3000",
     "lint": "esw tools src",
@@ -77,6 +77,10 @@
     "test:watch": "yarn run test -- --watch",
     "generate-mock-data": "babel-node tools/generateMockData",
     "prestart-mockapi": "yarn run generate-mock-data",
-    "start-mockapi": "json-server --watch src/api/db.json --port 3001"
+    "start-mockapi": "json-server --watch src/api/db.json --port 3001",
+    "clean-dist": "rimraf ./dist && mkdir dist",
+    "prebuild": "npm-run-all clean-dist test lint",
+    "build": "babel-node tools/build",
+    "postbuild": "babel-node tools/server.dist"
   }
 }
