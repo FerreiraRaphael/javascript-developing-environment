@@ -9,7 +9,7 @@ let port = 3000
 const app = express()
 const compiler = webpack(config)
 
-console.log(`Staring web server at PORT: ${port}`)
+console.log(chalk.blue(`Staring web server at PORT: ${port}`))
 
 app.use(require('webpack-dev-middleware')(compiler, {
   noInfo: true,
@@ -38,5 +38,3 @@ app.listen(port, err => {
     open(url)
   }
 })
-
-//TODO Add env var DEBUG to npm scripts
