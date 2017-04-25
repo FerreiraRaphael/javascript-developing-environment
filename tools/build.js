@@ -6,15 +6,13 @@ import webpack from 'webpack';
 import webpackConfig from './webpack.config.prod';
 import chalk from 'chalk';
 
-const debug = require('debug')('app:build');
-
 process.env.NODE_ENV = 'production';
 
-debug(chalk.blue('Generating minified bundle for production. This will take a moment...'))
+console.log(chalk.blue('Generating minified bundle for production. This will take a moment...'))
 
 webpack(webpackConfig).run((err, stats) => {
   if (err) {
-    debug(chalk.red(err));
+    console.log(chalk.red(err));
     return 1;
   }
 
@@ -25,13 +23,13 @@ webpack(webpackConfig).run((err, stats) => {
   }
 
   if (jsonStats.hasWarnings) {
-    debug(chalk.yellow('Webpack generated the following warnings: '));
+    console.log(chalk.yellow('Webpack generated the following warnings: '));
     jsonStats.warnings.map(warning => debug(chalk.yellow(warning)));
   }
 
-  debug(`Webpack stats: ${stats}`);
+  console.log(`Webpack stats: ${stats}`);
 
   //if we got this far, the build succeded
-  debug(chalk.green('App built to production and written to /dist'));
+  console.log(chalk.green('App built to production and written to /dist'));
   return 0;
 })
