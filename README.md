@@ -28,6 +28,10 @@ Linting process using eslint and eslint:recommended extension
 
 Testing process with mocha, chai and jsdom, and for CI, I`m using TravisCI  
 
+### HTTP
+
+Using whatwg-fetch for fetching data with http, and json-server and json-schema-faker for mocking the API
+
 
 
 
