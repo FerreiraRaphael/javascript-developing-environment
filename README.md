@@ -32,8 +32,12 @@ Testing process with mocha, chai and jsdom, and for CI, I`m using TravisCI
 
 Using whatwg-fetch for fetching data with http, and json-server and json-schema-faker for mocking the API
 
+### Production Build 
 
-
-
-
-
+Using a webpack config for the production using the following plugins :
+    - CommonsChunkPlugin for spliting bundles.
+    - WebpackMd5Hash for cache bursting.
+    - ExtractTextPlugin for creating a css bundle separately.
+    - HtmlWebpackPlugin for minify the html index and injecting bundles.
+    - DedupePlugin for eliminate duplicate packages when generating bundle.
+    - UglifyJsPlugin for minify JS.
