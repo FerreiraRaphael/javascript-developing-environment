@@ -6,7 +6,7 @@ import {schema} from '../spec/mockDataSchema'
 import fs from 'fs'
 import chalk from 'chalk'
 
-const json = JSON.stringify(jsf(schema))
+const json = JSON.stringify(jsf(schema), null, 2)
 fs.writeFile('./src/api/db.json', json, err => {
   if (err) {
     return console.log(chalk.red(err))
