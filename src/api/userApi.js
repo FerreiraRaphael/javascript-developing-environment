@@ -1,24 +1,24 @@
-import 'whatwg-fetch'
-import getBaseUrl from './baseUrl'
+import 'whatwg-fetch';
+import getBaseUrl from './baseUrl';
 
-const baseUrl = getBaseUrl()
+const baseUrl = getBaseUrl();
 
-export const getUsers = () => get('users')
+const handleUrl = url => `${baseUrl}/${url}`;
 
-export const deleteUser =  id => del(`users/${id}`)
+const onSucess = response => response.json();
 
-const get = url => fetch(handleUrl(url)).then(onSucess, onError)
+const onError = error => console.log(error);  // eslint-disable-line no-console
 
-const del = url => {
+const get = url => fetch(handleUrl(url)).then(onSucess, onError);
+
+const del = (url) => {
   const request = new Request(handleUrl(url), {
-    method: 'DELETE'
-  })
+    method: 'DELETE',
+  });
 
-  return fetch(request).then(onSucess, onError)
-}
+  return fetch(request).then(onSucess, onError);
+};
 
-const handleUrl = url => `${baseUrl}/${url}`
+export const getUsers = () => get('users');
 
-const onSucess = response => response.json()
-
-const onError = error => console.log(error)  //eslint-disable-line no-console
+export const deleteUser = id => del(`users/${id}`);

@@ -2,16 +2,15 @@
  * Created by raphael on 23/04/17.
  */
 
-export default function getBaseUrl() {
-  return getQueryStringParameterByName('useMockApi') ? `http://localhost:3001` : ``
-}
-
 function getQueryStringParameterByName(name, url) {
-  if (!url) url = window.location.href;
-  name = name.replace(/[\[\]]/g, "\\$&");
-  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-    results = regex.exec(url);
+  const param = name.replace(/[[\]]/g, '\\$&');
+  const regex = new RegExp(`[?&]${param}(=([^&#]*)|&|#|$)`);
+  const results = regex.exec(url || window.location.href);
   if (!results) return null;
   if (!results[2]) return '';
-  return decodeURIComponent(results[2].replace(/\+/g, " "));
+  return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+export default function getBaseUrl() {
+  return getQueryStringParameterByName('useMockApi') ? 'http://localhost:3001' : '';
 }
