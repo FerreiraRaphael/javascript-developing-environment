@@ -8,37 +8,38 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 export default {
   devtool: 'inline-source-map',
   entry: [
-    path.resolve(__dirname, '../src/index')
+    path.resolve(__dirname, '../src/index'),
   ],
-  target: "web",
+  target: 'web',
   output: {
     path: path.resolve(__dirname, '../src'),
     publicPath: '/',
-    filename: 'bundle.js'
+    filename: 'bundle.js',
   },
   plugins: [
     // Create HTML file that includes reference to bundled JS.
     new HtmlWebpackPlugin({
       template: 'src/index.html',
-      inject: true
+      inject: true,
     }),
   ],
   module: {
     rules: [
       {
-        test: /\.js$/, exclude: /node_modules/, 
+        test: /\.js$/,
+        exclude: /node_modules/,
         use: [
-         'babel-loader',
-         'eslint-loader' 
-        ]
+          'babel-loader',
+          'eslint-loader',
+        ],
       },
       {
-        test: /\.css$/, 
+        test: /\.css$/,
         use: [
           'style-loader',
-          'css-loader'
-        ]
-      }
-    ]
-  }
-}
+          'css-loader',
+        ],
+      },
+    ],
+  },
+};

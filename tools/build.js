@@ -2,13 +2,14 @@
  * Created by raphael on 24/04/17.
  */
 
+import chalk from 'chalk';
 import webpack from 'webpack';
 import webpackConfig from './webpack.config.prod';
-import chalk from 'chalk';
+
 
 process.env.NODE_ENV = 'production';
 
-console.log(chalk.blue('Generating minified bundle for production. This will take a moment...'))
+console.log(chalk.blue('Generating minified bundle for production. This will take a moment...'));
 
 webpack(webpackConfig).run((err, stats) => {
   if (err) {
@@ -19,7 +20,7 @@ webpack(webpackConfig).run((err, stats) => {
   const jsonStats = stats.toJson();
 
   if (jsonStats.hasErrors) {
-    return jsonStats.erros.map(error => console.log(chalk.red(error)))
+    return jsonStats.erros.map(error => console.log(chalk.red(error)));
   }
 
   if (jsonStats.hasWarnings) {
@@ -29,7 +30,7 @@ webpack(webpackConfig).run((err, stats) => {
 
   console.log(`Webpack stats: ${stats}`);
 
-  //if we got this far, the build succeded
+  // if we got this far, the build succeded
   console.log(chalk.green('App built to production and written to /dist'));
   return 0;
-})
+});
