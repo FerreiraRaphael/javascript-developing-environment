@@ -63,7 +63,7 @@
     "rules": {}
   },
   "scripts": {
-    "start": "npm-run-all --parallel security-check open:src lint test:watch start-mockapi",
+    "start": "npm-run-all --parallel security-check open:src test:watch start-mockapi",
     "open:src": "babel-node tools/server.src",
     "security-check": "nsp check",
     "share": "yarn run security-check && lt --port 3000",
