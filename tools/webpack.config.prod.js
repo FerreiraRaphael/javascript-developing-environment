@@ -1,17 +1,23 @@
 /**
  * Created by raphael on 19/04/17.
  */
-
 import path from 'path';
 import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import WebpackMd5Hash from 'webpack-md5-hash';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
+// Fix for Error: EINVAL: invalid argument, uv_interface_addresses
+// This seens to be a Windows 10 only error
+// See: https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/440
+try {
+  require('os').networkInterfaces();
+} catch (e) {
+  require('os').networkInterfaces = () => ({});
+}
+
 export default {
-  debug: true,
   devtool: 'source-map',
-  noInfo: false,
   entry: {
     main: path.resolve(__dirname, '../src/index'),
     vendor: ['whatwg-fetch'],
@@ -23,8 +29,6 @@ export default {
     filename: '[name]-[chunkhash].js',
   },
   plugins: [
-    // Generate an external css file with a hash in the filename.
-    new ExtractTextPlugin('[name].[contenthash].css'),
 
     // Hash the files using MD5 so that their names change when the content changes.
     new WebpackMd5Hash(),
@@ -35,15 +39,19 @@ export default {
       name: 'vendor', // /* chunkName= */"vendor", /* filename= */"vendor.bundle-[hash].js"
     }),
 
-    // Create HTML file that includes reference to bundled JS.
+    // create css bundle
+    new ExtractTextPlugin('style-[contenthash:8].css'),
+
+    // create index.html
     new HtmlWebpackPlugin({
       template: 'src/index.html',
       inject: true,
+      production: true,
       minify: {
         removeComments: true,
         collapseWhitespace: true,
         removeRedundantAttributes: true,
-        useShortDocType: true,
+        useShortDoctype: true,
         removeEmptyAttributes: true,
         removeStyleLinkTypeAttributes: true,
         keepClosingSlash: true,
@@ -53,16 +61,45 @@ export default {
       },
     }),
 
-    // Eliminate duplicate packages when generating bundle.
-    new webpack.optimize.DedupePlugin(),
-
     // Minify JS.
-    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false,
+        screw_ie8: true,
+        conditionals: true,
+        unused: true,
+        comparisons: true,
+        sequences: true,
+        dead_code: true,
+        evaluate: true,
+        if_return: true,
+        join_vars: true,
+      },
+    }),
+    new webpack.LoaderOptionsPlugin({
+      minimize: true,
+      debug: false,
+    }),
   ],
   module: {
     loaders: [
-      { test: /\.js$/, exclude: /node_modules/, loaders: ['babel'] },
-      { test: /\.css$/, loader: ExtractTextPlugin.extract('css?sourceMap') },
+      { test: /\.js$/, exclude: /node_modules/, loaders: ['babel-loader'] },
+      {
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                // module: true, // css-loader 0.14.5 compatible
+                modules: true,
+                localIdentName: '[hash:base64:5]',
+              },
+            },
+          ],
+        }),
+      },
     ],
   },
 };
