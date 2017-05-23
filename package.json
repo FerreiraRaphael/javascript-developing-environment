@@ -67,7 +67,7 @@
     "open:src": "babel-node tools/server.src",
     "security-check": "nsp check",
     "share": "yarn run security-check && lt --port 3000",
-    "lint": "eslint tools src --fix",
+    "lint": "eslint tools src spec --fix",
     "test": "mocha --reporter progress spec/testSetup.js \"src/**/*.spec.js\"",
     "test:watch": "yarn run test -- --watch",
     "generate-mock-data": "babel-node tools/generateMockData",
